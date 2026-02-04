@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexory - Premium Tech Accessories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        body {
+            background: #0a0e27;
+            color: #e4e9f7;
+        }
+        
+        /* Navigation hover effects */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #0099ff);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::before {
+            width: 100%;
+        }
+        
+        /* Product card animations */
+        .product-card {
+            background: rgba(20, 28, 58, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+        
+        /* Glowing button effect */
+        .btn-glow {
+            position: relative;
+            background: linear-gradient(135deg, #00d4ff, #0099ff);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.6);
+        }
+        
+        .btn-glow:active {
+            transform: translateY(0);
+        }
+        
+        /* Hero gradient background */
+        .hero-bg {
+            background: linear-gradient(135deg, #0a0e27 0%, #141c3a 50%, #1a2549 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        /* Feature icon hover */
+        .feature-box {
+            transition: all 0.3s ease;
+            background: rgba(20, 28, 58, 0.4);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .feature-box:hover {
+            background: rgba(20, 28, 58, 0.8);
+            border-color: rgba(0, 212, 255, 0.5);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-box:hover .feature-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+        
+        /* Form validation messages */
+        .error-shake {
+            animation: shake 0.4s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        
+        .success-fade {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Newsletter section glow */
+        .newsletter-section {
+            background: rgba(20, 28, 58, 0.5);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Mobile menu slide animation */
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu.active {
+            max-height: 400px;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0e27;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00d4ff, #0099ff);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00e5ff, #00aaff);
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full top-0 z-50 bg-opacity-95 backdrop-blur-md" style="background: rgba(10, 14, 39, 0.95);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <h1 class="text-2xl font-bold font-mono">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">CODE</span><span class="text-white">XORY</span>
+                    </h1>
+                </div>
+                
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-300 hover:text-cyan-400 font-medium">Home</a>
+                    <a href="#products" class="nav-link text-gray-300 hover:text-cyan-400 font-medium">Products</a>
+                    <a href="#about" class="nav-link text-gray-300 hover:text-cyan-400 font-medium">About</a>
+                    <a href="#contact" class="nav-link text-gray-300 hover:text-cyan-400 font-medium">Contact</a>
+                </div>
+                
+                <!-- Shop Now Button (Desktop) -->
+                <div class="hidden md:block">
+                    <button class="btn-glow text-white px-6 py-2 rounded-lg font-semibold">
+                        Shop Now
+                    </button>
+                </div>
+                
+                <!-- Hamburger Menu Icon (Mobile) -->
+                <div class="md:hidden">
+                    <button id="hamburger" class="text-gray-300 hover:text-cyan-400 focus:outline-none transition-colors">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden border-t border-gray-800" style="background: rgba(10, 14, 39, 0.98);">
+            <div class="px-4 pt-3 pb-4 space-y-2">
+                <a href="#home" class="block px-4 py-3 text-gray-300 hover:bg-cyan-900 hover:bg-opacity-20 hover:text-cyan-400 rounded-lg font-medium transition-all">Home</a>
+                <a href="#products" class="block px-4 py-3 text-gray-300 hover:bg-cyan-900 hover:bg-opacity-20 hover:text-cyan-400 rounded-lg font-medium transition-all">Products</a>
+                <a href="#about" class="block px-4 py-3 text-gray-300 hover:bg-cyan-900 hover:bg-opacity-20 hover:text-cyan-400 rounded-lg font-medium transition-all">About</a>
+                <a href="#contact" class="block px-4 py-3 text-gray-300 hover:bg-cyan-900 hover:bg-opacity-20 hover:text-cyan-400 rounded-lg font-medium transition-all">Contact</a>
+                <button class="w-full btn-glow text-white px-6 py-3 rounded-lg font-semibold mt-2">
+                    Shop Now
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg pt-32 pb-20 px-4 sm:px-6 lg:px-8 mt-16">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-block mb-4 px-4 py-2 bg-cyan-500 bg-opacity-10 border border-cyan-500 border-opacity-30 rounded-full">
+                <span class="text-cyan-400 text-sm font-semibold font-mono">NEW ARRIVALS</span>
+            </div>
+            <h2 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+                Tech That
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600"> Elevates</span>
+            </h2>
+            <p class="text-xl sm:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto">
+                Premium accessories engineered for performance, designed for style. Level up your tech game.
+            </p>
+            <button class="btn-glow text-white px-10 py-4 rounded-lg font-bold text-lg inline-flex items-center gap-2">
+                Explore Products
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+    
+    <!-- Featured Products Section -->
+    <section id="products" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h3 class="text-4xl sm:text-5xl font-bold text-white mb-4">Featured Products</h3>
+                <p class="text-lg text-gray-400">Handpicked tech essentials for the modern creator</p>
+            </div>
+            
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Product Card 1 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-headphones text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">ProAudio Wireless</h4>
+                    <p class="text-gray-400 text-sm mb-4">Premium noise-cancelling headphones with 40hr battery life</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R299</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Card 2 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-charging-station text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">HyperCharge Pro</h4>
+                    <p class="text-gray-400 text-sm mb-4">100W USB-C fast charger with multi-device support</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R79</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Card 3 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-keyboard text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">MechMaster RGB</h4>
+                    <p class="text-gray-400 text-sm mb-4">Mechanical keyboard with tactile switches and RGB</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R149</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Card 4 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-laptop text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">ElevateStand Pro</h4>
+                    <p class="text-gray-400 text-sm mb-4">Ergonomic aluminum laptop stand with cooling design</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R89</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Card 5 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-plug text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">USB-C Hub Elite</h4>
+                    <p class="text-gray-400 text-sm mb-4">8-in-1 hub with 4K HDMI, SD card, and ethernet</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R59</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Card 6 -->
+                <div class="product-card rounded-2xl p-6">
+                    <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl h-56 mb-6 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-battery-full text-cyan-400 text-7xl opacity-60"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">PowerBank 20K</h4>
+                    <p class="text-gray-400 text-sm mb-4">20,000mAh portable charger with fast charging</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-cyan-400">R45</span>
+                        <button class="bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2 rounded-lg font-semibold transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Choose Us Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8" style="background: rgba(20, 28, 58, 0.3);">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16">
+                <h3 class="text-4xl sm:text-5xl font-bold text-white mb-4">Why Codexory?</h3>
+                <p class="text-lg text-gray-400">Built different for tech enthusiasts</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="feature-box rounded-xl p-8 text-center">
+                    <div class="feature-icon w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shipping-fast text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Fast Shipping</h4>
+                    <p class="text-gray-400 text-sm">Free express delivery on orders over R50</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-box rounded-xl p-8 text-center">
+                    <div class="feature-icon w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">1-Year Warranty</h4>
+                    <p class="text-gray-400 text-sm">Full coverage on all tech accessories</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-box rounded-xl p-8 text-center">
+                    <div class="feature-icon w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-headset text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">24/7 Support</h4>
+                    <p class="text-gray-400 text-sm">Expert tech support whenever you need it</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-box rounded-xl p-8 text-center">
+                    <div class="feature-icon w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-undo text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-2">Easy Returns</h4>
+                    <p class="text-gray-400 text-sm">30-day hassle-free return policy</p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="newsletter-section rounded-2xl p-10 text-center backdrop-blur-md">
+                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-4">Stay in the Loop</h3>
+                <p class="text-gray-400 mb-8">Get exclusive deals, product drops, and tech tips delivered to your inbox</p>
+                
+                <!-- Newsletter Form -->
+                <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                    <input 
+                        type="email" 
+                        id="email-input" 
+                        placeholder="Enter your email" 
+                        class="flex-1 px-6 py-4 bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all"
+                    >
+                    <button 
+                        type="submit" 
+                        class="btn-glow text-white px-8 py-4 rounded-lg font-semibold whitespace-nowrap"
+                    >
+                        Subscribe
+                    </button>
+                </form>
+                
+                <!-- Error Message -->
+                <div id="error-message" class="hidden mt-4 p-4 bg-red-900 bg-opacity-30 border border-red-500 rounded-lg text-red-400">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span id="error-text"></span>
+                </div>
+                
+                <!-- Success Message -->
+                <div id="success-message" class="hidden mt-4 p-4 bg-green-900 bg-opacity-30 border border-green-500 rounded-lg text-green-400">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    Thanks for subscribing! Check your inbox for exclusive deals.
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Brand Column -->
+                <div>
+                    <h2 class="text-2xl font-bold font-mono mb-4">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">CODE</span><span class="text-white">XORY</span>
+                    </h2>
+                    <p class="text-gray-400 text-sm">Premium tech accessories for creators and professionals.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Shop All</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Best Sellers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Sale</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">Returns</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-cyan-400 text-sm transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media -->
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Follow Us</h4>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-all">
+                            <i class="fab fa-twitter text-gray-400 hover:text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-all">
+                            <i class="fab fa-instagram text-gray-400 hover:text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-cyan-600 rounded-lg flex items-center justify-center transition-all">
+                            <i class="fab fa-youtube text-gray-400 hover:text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2026 Codexory. All rights reserved. Built with passion for tech enthusiasts.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // ==========================================
+        // 1. HAMBURGER MENU TOGGLE
+        // ==========================================
+        
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        hamburger.addEventListener('click', function() {
+            // Toggle the 'active' class to show/hide menu
+            mobileMenu.classList.toggle('active');
+            
+            // Change icon from bars to X when menu is open
+            const icon = hamburger.querySelector('i');
+            if (mobileMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        
+        // ==========================================
+        // 2. EMAIL FORM VALIDATION
+        // ==========================================
+        
+        const form = document.getElementById('newsletter-form');
+        const emailInput = document.getElementById('email-input');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const successMessage = document.getElementById('success-message');
+        
+        form.addEventListener('submit', function(e) {
+            // Prevent page from reloading
+            e.preventDefault();
+            
+            // Hide any previous messages
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+            
+            // Get the email value and remove extra spaces
+            const email = emailInput.value.trim();
+            
+            // Validation Check 1: Is the email field empty?
+            if (email === '') {
+                showError('Please enter your email address');
+                return;
+            }
+            
+            // Validation Check 2: Does it look like an email?
+            // We check if it has @ symbol and a dot after it
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailPattern.test(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            // If we get here, the email is valid!
+            showSuccess();
+            
+            // Clear the input field
+            emailInput.value = '';
+        });
+        
+        
+        // Helper function to show error messages
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('error-shake');
+            
+            // Remove the shake animation after it finishes
+            setTimeout(() => {
+                errorMessage.classList.remove('error-shake');
+            }, 400);
+        }
+        
+        // Helper function to show success message
+        function showSuccess() {
+            successMessage.classList.remove('hidden');
+            successMessage.classList.add('success-fade');
+        }
+    </script>
+    
+</body>
+</html>
